@@ -5,7 +5,7 @@ data/
 python_env/
 
 # pycharm files
-*.ideas
+.idea/
 
 *.ipynb
 
