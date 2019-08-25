@@ -19,7 +19,7 @@ from src.data.extract_and_reframe_serie import main_data_processing
 
 class time_serie_auto_encoder:
 
-    def __init__(self, data, num_serie, max_serie_length, compression_size):
+    def __init__(self, data, num_serie, max_serie_length, compression_size, model_folder=""):
 
         # global variable for size
         self.data = data
@@ -84,7 +84,7 @@ class time_serie_auto_encoder:
                                                                  batch_size=batch_size)
 
 
-    def save_model(self, path='/Users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/models/', name='autoencoder'):
+    def save_model(self, path='/Users/az02234/Documents/Personnal_Git/PredictiveMaintenanceAutoEncoder/models/', name='autoencoder'):
         """
         Save model in hdf5 / JSON
         """
@@ -232,7 +232,7 @@ if __name__ == '__main__':
 
     # get data and max_size
     os.chdir(
-        '/users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/data/interim/')
+        '/users/az02234/Documents/Personnal_Git/PredictiveMaintenanceAutoEncoder/data/interim/')
 
     data = pd.read_csv("data_dl.csv", dtype={'dataValue': np.float64, 'pji': np.int64},
                        parse_dates=['sourceTimestamp_dtformat'], nrows=500000)

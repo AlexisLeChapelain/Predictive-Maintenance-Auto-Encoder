@@ -1,9 +1,10 @@
-rd-cookiecutter-datascience-template
+TS-Anomalies
 ==============================
 
-A short description of the project.
+A detector of anomalies in time series based on deep learning. 
 
-Project Organization
+
+Project Organization (based on RD cookie-cutter)
 ------------
 
     ├── LICENSE

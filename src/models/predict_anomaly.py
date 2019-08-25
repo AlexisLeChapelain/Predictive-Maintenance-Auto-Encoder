@@ -12,13 +12,13 @@ from src.data.extract_and_reframe_serie import main_data_processing
 
 class predict_anomaly:
 
-    def __init__(self):
+    def __init__(self, folder_path):
 
         # Clear session in the beginning
         K.clear_session()
 
         # Path and name
-        self.path='/Users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/models/'
+        self.path= folder_path + "models/"
         self.name='autoencoder'
         self.model_autoencoder = None
 
@@ -29,14 +29,14 @@ class predict_anomaly:
         """
         print("Start restoring model")
         # Load model
-        json_file = open("/Users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/models/model_autoencoder.json", 'r')
+        json_file = open(self.path + "model_autoencoder.json", 'r')
         loaded_model_json = json_file.read()
         json_file.close()
         print("Model is loaded")
 
         # Load weight
         self.model_autoencoder = model_from_json(loaded_model_json)
-        self.model_autoencoder.load_weights("/Users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/models/weight_autoencoder.h5")
+        self.model_autoencoder.load_weights(self.path + "weight_autoencoder.h5")
         print("Weigths are loaded")
 
         # load metadata
@@ -67,7 +67,7 @@ class predict_anomaly:
         :return max_length: the maximum length of the cycle contained in the
         """
         # Load data
-        interim_data_folder = '/users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/data/interim/'
+        interim_data_folder = folder_path+ "data/interim/"
         data = pd.read_csv(interim_data_folder+"data_dl.csv", dtype={'dataValue': np.float64, 'pji': np.int64},
                            parse_dates=['sourceTimestamp_dtformat'], nrows=10000)
         data_dl, max_length = main_data_processing(data, max_length=self.max_length)
@@ -96,7 +96,8 @@ class predict_anomaly:
 
 
 if __name__ == '__main__':
-    predict_anomaly_cls = predict_anomaly()
+    folder_path="/Users/az02234/Documents/Personnal_Git/PredictiveMaintenanceAutoEncoder/"
+    predict_anomaly_cls = predict_anomaly(folder_path)
     predict_anomaly_cls.restore_model()
     predict_anomaly_cls.generate_prediction("data_dl.csv")
     predict_anomaly_cls.visualize(id_serie=0)

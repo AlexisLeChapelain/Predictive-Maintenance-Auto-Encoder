@@ -1,10 +1,10 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='src',
+    name='ts-anomaly',
     packages=find_packages(),
     version='0.1.0',
-    description='A short description of the project.',
+    description='Detecting anomalies in time series.',
     author='DS @ RD',
     license='',
 )

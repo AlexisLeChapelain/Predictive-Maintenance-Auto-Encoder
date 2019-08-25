@@ -139,7 +139,7 @@ if __name__ == '__main__':
 
     # get data and max_size
     os.chdir(
-        '/users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/data/interim/')
+        '/users/az02234/Documents/Personnal_Git/PredictiveMaintenanceAutoEncoder/data/interim/')
 
     data = pd.read_csv("data_dl.csv", dtype={'dataValue': np.float64, 'pji': np.int64},
                        parse_dates=['sourceTimestamp_dtformat'], nrows=100000)
