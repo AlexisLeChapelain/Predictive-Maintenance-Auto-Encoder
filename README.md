@@ -3,6 +3,21 @@ TS-Anomalies
 
 A detector of anomalies in time series based on deep learning. 
 
+The detector is based on an attention RNN which is used to build an auto-encoder. 
+
+NB: The loss is not yet appropriate. Should be based on dynamic time warping. This should be fixed to get good results. 
+
+Feel free to fork and improve :)
+
+
+How-To
+------------
+Store your data in a data/interim folder within the project. 
+
+Estimate the model by running src/model/class_times_serie_auto_encoder.py
+
+Predict and visualize results in src/model/predict_anomaly.py
+
 
 Project Organization (based on RD cookie-cutter)
 ------------

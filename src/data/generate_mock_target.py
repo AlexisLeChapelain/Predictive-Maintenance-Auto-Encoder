@@ -6,6 +6,9 @@ import os
 import pandas as pd
 import numpy as np
 
+# Aim : build a a mock target for a neural network to predict
+# The target is made of a smaller serie constituted of statistics from the original serie (average, variance, etc)
+
 
 ## To be optimized : first build a complete vector of block id and then concatenate it rather than doing multiple
 ## select within the df

@@ -10,6 +10,8 @@ import numpy as np
 def main_data_processing(data, max_length='auto'):
     if max_length=='auto':
         max_length, num_serie = compute_max_sequence_length(data)
+    else:
+        num_serie = compute_max_sequence_length(data)[1]
 
     data["micro_second"] = data.sourceTimestamp_dtformat.dt.microsecond \
                            + data.sourceTimestamp_dtformat.dt.second * 1000 \
@@ -22,7 +24,7 @@ def main_data_processing(data, max_length='auto'):
     data = data.reset_index(drop=True)
     data = data.fillna(0)
     data = padding(data, max_length)
-    return data, max_length
+    return data, max_length, num_serie
 
 
 def compute_max_sequence_length(dataframe):
@@ -68,11 +70,16 @@ def padding(data, max_length):
 
 if __name__ == '__main__':
     os.chdir(
-        '/users/az02234/Documents/Projets_Renault/PredictiveMaintenance/PredictiveMaintenanceAutoEncoder/data/interim/')
+        '/users/az02234/Documents/Personnal_Git/PredictiveMaintenanceAutoEncoder/data/interim/')
 
+    # Data should contain a value and a time stamp
     data = pd.read_csv("data_dl.csv", dtype={'dataValue': np.float64, 'pji': np.int64},
                        parse_dates=['sourceTimestamp_dtformat'], nrows=500000)
 
+    print(data.head())
+
+    # Time stamp is converted in float format and normalized.
+    # Padding is performed to have equal length serie (NB: smarter methods could be used)
     data, max_length, num_serie = main_data_processing(data)
     print("\n", max_length, "\n", num_serie)
 

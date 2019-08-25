@@ -29,14 +29,14 @@ class predict_anomaly:
         """
         print("Start restoring model")
         # Load model
-        json_file = open(self.path + "model_autoencoder.json", 'r')
+        json_file = open(self.path + "model_autoencoderBis.json", 'r')
         loaded_model_json = json_file.read()
         json_file.close()
         print("Model is loaded")
 
         # Load weight
         self.model_autoencoder = model_from_json(loaded_model_json)
-        self.model_autoencoder.load_weights(self.path + "weight_autoencoder.h5")
+        self.model_autoencoder.load_weights(self.path + "weight_autoencoderBis.h5")
         print("Weigths are loaded")
 
         # load metadata
@@ -70,7 +70,7 @@ class predict_anomaly:
         interim_data_folder = folder_path+ "data/interim/"
         data = pd.read_csv(interim_data_folder+"data_dl.csv", dtype={'dataValue': np.float64, 'pji': np.int64},
                            parse_dates=['sourceTimestamp_dtformat'], nrows=10000)
-        data_dl, max_length = main_data_processing(data, max_length=self.max_length)
+        data_dl, max_length, num_serie = main_data_processing(data, max_length=self.max_length)
         return data_dl, max_length
 
 
@@ -84,7 +84,7 @@ class predict_anomaly:
 
     def visualize(self, id_serie=0):
         # visualization of a single serie (prediction vs data)
-        predictions2 = predictions[id_serie,:,:]
+        predictions2 = self.predictions[id_serie,:,:]
         data_dl2 = self.data_dl[id_serie,:,0].reshape(-1,1)
         plt.plot(predictions2)
         plt.plot(data_dl2)

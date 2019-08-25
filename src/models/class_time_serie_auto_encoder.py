@@ -19,7 +19,7 @@ from src.data.extract_and_reframe_serie import main_data_processing
 
 class time_serie_auto_encoder:
 
-    def __init__(self, data, num_serie, max_serie_length, compression_size, model_folder=""):
+    def __init__(self, data, num_serie, max_serie_length, compression_size):
 
         # global variable for size
         self.data = data
@@ -101,7 +101,13 @@ class time_serie_auto_encoder:
         metadata_json = {'num_serie': self.num_serie, 'compression_size': self.compression_size,
                          'max_serie_length': self.max_serie_length, 'n_s_encoder': self.n_s_encoder,
                          'n_s_decoder': self.n_s_decoder}
-        metadata_json_str = json.dumps(metadata_json)
+        try:
+            metadata_json_str = json.dumps(metadata_json)
+        except TypeError:
+            metadata_json_str = json.dumps(str(metadata_json))
+        except Exception as e:
+            print(e)
+
         with open(path + 'metadata_'+name+'.json', "w") as json_file:
             json.dump(metadata_json_str, json_file)
         json_file.close()
@@ -238,12 +244,14 @@ if __name__ == '__main__':
                        parse_dates=['sourceTimestamp_dtformat'], nrows=500000)
 
     data_dl, max_length, num_serie = main_data_processing(data)
+    # NB : data should be of the shape (num_series, length_serie, 2). The first value for the last dimension is an
+    # index of time (in float), the second is the actual valie of the serie
     data_dl = data_dl[:,:,[0,2]]
 
     time_serie_auto_encoder = time_serie_auto_encoder(data_dl, num_serie, max_length, 50)
     time_serie_auto_encoder.fit(num_epoch=20, batch_size=256)
     time_serie_auto_encoder.visualize_fit_history()
-    time_serie_auto_encoder.save_model()
+    time_serie_auto_encoder.save_model(name='autoencoderBis')
 
     print("Done!")
 
